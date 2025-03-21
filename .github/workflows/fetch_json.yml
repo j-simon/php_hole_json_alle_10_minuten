@@ -30,11 +30,11 @@ jobs:
       - name: Commit and Push Changes
       
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SECRET2 }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:${{ secrets.SECRET2 }}@github.com/${{ github.repository }}.git
           git add output.json
           git commit -m "Updated JSON data with timestamp" || exit 0
           git push origin master
