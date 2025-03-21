@@ -30,7 +30,7 @@ jobs:
       - name: Commit and Push Changes
       
         env:
-          TEST: ${{ secrets.TEST }}
+          TEST: ${{ secrets.MEINS }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
