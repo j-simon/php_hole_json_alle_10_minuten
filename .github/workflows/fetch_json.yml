@@ -1,39 +1,40 @@
-name: Fetch JSON and Commit
+name: Fetch JSON Every 1 Minute
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # Alle 10 Minuten
+    - cron: '*/1 * * * *'  # Alle 1 Minute
+  workflow_dispatch:  # Ermöglicht manuelles Starten
 
 jobs:
-  fetch-json:
+  fetch_json:
     runs-on: ubuntu-latest
-    steps:
-      # Repository auschecken
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      # PHP-Setup (wenn du Composer oder PHP installieren musst)
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'  # oder deine PHP-Version
+          php-version: '8.2'
 
-      # PHP-Skript ausführen
       - name: Run PHP Script
-        run: |
-          php fetch_json.php  # Dein PHP-Skript, das die JSON-Daten abruft und speichert
+        run: php fetch_json.php
 
-      # Git-Setup (falls noch nicht konfiguriert)
-      - name: Set up git user
+      - name: Ensure correct branch
+        run: |
+          git fetch origin
+          git branch --list
+          git checkout master || git checkout -b master
+
+      - name: Commit and Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      # Commit und Push der Änderungen
-      - name: Commit and push changes
-        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}.git
           git add output.json
           git commit -m "Updated JSON data with timestamp" || exit 0
-          git push origin main  # oder master, je nach deinem Branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token für Push
+          git push origin master
+  
