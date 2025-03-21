@@ -27,6 +27,14 @@ jobs:
           git branch --list
           git checkout master || git checkout -b master
 
+      - name: Debugging Output
+        run: |
+         echo "Die GitHub Token Umgebungsvariable: ${{ secrets.MEINS }}"
+         echo "Aktuelles Verzeichnis: $(pwd)"
+         echo "Inhalt der output.json Datei:"
+         cat output.json
+
+
       - name: Commit and Push Changes
       
         run: |
