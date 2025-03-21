@@ -28,12 +28,13 @@ jobs:
           git checkout master || git checkout -b master
 
       - name: Commit and Push Changes
+      
         env:
-          GITHUB_TOKEN: ${{ secrets.GitHub_Actions_Token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACTIONS_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GitHub_Actions_Token }}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_ACTIONS_TOKEN }}@github.com/${{ github.repository }}.git
           git add output.json
           git commit -m "Updated JSON data with timestamp" || exit 0
           git push origin master
