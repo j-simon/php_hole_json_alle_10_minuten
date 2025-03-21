@@ -21,6 +21,12 @@ jobs:
       - name: Run PHP Script
         run: php fetch_json.php
 
+      - name: Ensure correct branch
+        run: |
+          git fetch origin
+          git branch --list
+          git checkout main || git checkout -b main
+
       - name: Commit and Push Changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
