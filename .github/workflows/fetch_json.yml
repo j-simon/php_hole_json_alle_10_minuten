@@ -25,7 +25,7 @@ jobs:
         run: |
           git fetch origin
           git branch --list
-          git checkout main || git checkout -b main
+          git checkout master || git checkout -b master
 
       - name: Commit and Push Changes
         env:
@@ -36,5 +36,5 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
           git add output.json
           git commit -m "Updated JSON data with timestamp" || exit 0
-          git push origin main
+          git push origin master
   
